@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Home</title>
+</head>
+<body>
+	<h2>What do you want to do today!</h2>
+	<form method="post">
+		{% csrf_token %}
+		Add Todo: {{form.title}}
+		<input type="submit" value="Add">
+	</form>
+	<br>
+	<p style="color: green">
+	{% if messages %}
+		{% for message in messages %}
+			{{message}}
+		{% endfor %}
+	{% endif %}
+	</p>
+	<br>
+	{% for task in tasks %}
+		{% if task.complete %}
+			<s><p>{{task.title}}</p></s>
+		{% else %}
+			<p>{{task.title}}</p>
+		{% endif %}
+		<a href="{% url 'deleteTask' task.pk %}">Delete</a>
+		<a href="{% url 'updateTask' task.pk %}">Update</a>
+	{% endfor %}
+</body>
+</html>
